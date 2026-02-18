@@ -27,7 +27,7 @@ jobs:
       - name: Accessibility check (pa11y)
         run: |
           npx serve -s . -l 3000 &
-          for i in $(seq 1 30); do curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/ | grep -q 200 && break; sleep 1; done
+          npx wait-on -t 60000 http://127.0.0.1:3000/
           npx pa11y http://127.0.0.1:3000/ --standard WCAG2AA --ignore "warning"
           npx pa11y http://127.0.0.1:3000/privatumas.html --standard WCAG2AA --ignore "warning"
         env:
