@@ -11,8 +11,8 @@
 - ✅ **8 specializuoti promptai** organizacijos analizei
 - 🎯 **Interaktyvus dizainas** su lengvu kopijavimu
 - 📋 **Automatinis tekstų kopijavimas** į mainų atmintinę
-- 📱 **Responsive dizainas** - veikia visuose įrenginiuose
-- 🎨 **Modernus UI** su profesionaliu dizainu
+- 📱 **Responsive dizainas** – veikia visuose įrenginiuose (Mobile UI First)
+- 🎨 **Minimali aplikacija** – **nerinkime jokių vartotojų duomenų**; kontaktų forma ir Google Sheets integracija šiame etape išjungta (galima įjungti vėliau)
 
 ## Promptų sąrašas
 
@@ -27,7 +27,7 @@
 
 ## Kaip naudoti
 
-1. Atidarykite `promptu_biblioteka.html` naršyklėje
+1. Atidarykite `index.html` naršyklėje
 2. Pasirinkite promptą ir spauskite ant jo – tekstas automatiškai pažymėsis
 3. Spauskite mygtuką **"Kopijuoti promptą"** arba naudokite `Ctrl+C` / `Cmd+C`
 4. Įklijuokite į ChatGPT, Claude ar kitą DI įrankį
@@ -40,27 +40,47 @@
 - **Vanilla JavaScript** - Interaktyvumas be priklausomybių
 - **Google Fonts** - Inter ir JetBrains Mono šriftai
 
-## Funkcijos
-
-- ✨ Automatinis tekstų pažymėjimas paspaudus
-- 📋 Kopijavimas į mainų atmintinę vienu paspaudimu
-- 🎨 Vizualus grįžtamasis ryšys (toast pranešimai)
-- 📱 Responsive dizainas mobiliesiems įrenginiams
-- 🖨️ Print-friendly stilius
-- ♿ Pritaikymas neįgaliesiems (reduced motion)
-
 ## Struktūra
 
 ```
 .
-├── promptu_biblioteka.html  # Pagrindinis HTML failas
-├── README.md                 # Projekto dokumentacija
-└── .gitignore               # Git ignoravimo taisyklės
+├── index.html          # Pagrindinis puslapis
+├── README.md           # Dokumentacija
+├── CHANGELOG.md        # Versijų istorija (Keep a Changelog)
+├── privatumas.html     # Privatumo politika
+├── package.json        # Dev: lint, testai, a11y
+├── DEPLOYMENT.md       # Deploy instrukcijos (GitHub Pages)
+├── docs/
+│   ├── DOCUMENTATION.md
+│   ├── QA_STANDARTAS.md   # QA standartas (spinoff01)
+│   └── TESTAVIMAS.md      # Gyvo testavimo žurnalas
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml
+│   │   └── deploy.yml
+│   └── PULL_REQUEST_TEMPLATE.md
+└── .gitignore
 ```
+
+## Privatumas
+
+- **Minimali aplikacija:** šiuo metu **nerinkime jokių asmens duomenų**. Visas naudojimas vyksta tik tavo įrenginyje (kopijavimas, „Pažymėjau kaip atlikau“ – localStorage).
+- **Privatumo politika:** [privatumas.html](privatumas.html) – aprašymas, kad duomenų nerinkime; jei vėliau bus įjungta kontaktų forma, bus atnaujinta.
+
+## Deployment ir gyvas testavimas
+
+- **Deploy:** GitHub Pages per [.github/workflows/deploy.yml](.github/workflows/deploy.yml). Instrukcijos: [DEPLOYMENT.md](DEPLOYMENT.md).
+- **Production URL:** (užpildyti po pirmo deploy, pvz. `https://<org>.github.io/<repo>/`)
+- **QA standartas:** [DITreneris/spinoff01](https://github.com/DITreneris/spinoff01). Projektas laikosi [docs/QA_STANDARTAS.md](docs/QA_STANDARTAS.md); po deploy – gyvas testavimas pagal [docs/TESTAVIMAS.md](docs/TESTAVIMAS.md).
 
 ## Reikalavimai
 
-Nėra jokių priklausomybių ar build proceso. Tiesiog atidarykite HTML failą naršyklėje!
+- **Naudojimui:** Nėra priklausomybių – tiesiog atidarykite HTML failą naršyklėje
+- **Development/CI:** `npm install` ir `npm run lint:html`, `npm run lint:js` (žr. package.json)
+
+## Kontaktų rinkimas (vėlesniems etapams)
+
+Dabartinė versija minimali – kontaktų formos nėra. Jei vėliau reikės rinkti atsiliepimus, integracijos instrukcijos saugomos repozitorijoje (vėlesniems etapams).
 
 ## Licencija
 

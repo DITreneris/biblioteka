@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests (structure + lint)
+        run: npm test
+
+      - name: Accessibility check (pa11y)
+        run: |
+          npx serve -s . -l 3000 &
+          sleep 5
+          npx pa11y http://localhost:3000/ --standard WCAG2AA --ignore "warning"
+          npx pa11y http://localhost:3000/privatumas.html --standard WCAG2AA --ignore "warning"
+        env:
+          CI: true

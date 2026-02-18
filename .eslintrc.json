@@ -1,0 +1,31 @@
+{
+  "env": { "browser": true, "es2022": true },
+  "globals": {
+    "SpreadsheetApp": "readonly",
+    "ContentService": "readonly",
+    "MailApp": "readonly",
+    "Logger": "readonly",
+    "console": "readonly"
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": { "ecmaVersion": 2022, "sourceType": "script" },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  },
+  "ignorePatterns": ["node_modules/", "*.min.js"],
+  "overrides": [
+    {
+      "files": ["google-apps-script.js"],
+      "env": { "browser": false },
+      "rules": {
+        "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^(sendEmailNotification|test)$" }]
+      }
+    },
+    {
+      "files": ["tests/**/*.js"],
+      "env": { "node": true, "es2022": true },
+      "rules": { "no-console": "off" }
+    }
+  ]
+}

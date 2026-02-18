@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
+    <style>html { scroll-behavior: smooth; }</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8 paprasti žingsniai, kad DI pradėtų dirbti už tave</title>
+    <title>Leisk DI atlikti 30–50% tavo kasdienių užduočių – Promptų anatomija</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -15,20 +16,62 @@
         }
 
         :root {
-            /* Spalvos - šviesios ir energingos */
-            --bg: #F5F7FA;
+            /* Promptų anatomija spin-off – spalvų gama */
+            --bg: #F7F8FA;
             --white: #FFFFFF;
             --text: #1A202C;
             --text-light: #4A5568;
             --border: #CBD5E0;
-            
-            /* Akcentai - ryškūs ir profesionalūs */
-            --blue: #2B6CB0;
-            --blue-light: #EBF8FF;
-            --orange: #DD6B20;
-            --orange-light: #FFFAF0;
+
+            /* Pagrindinis akcentas (muted amber/mustard – ramesnė edukacinei platformai) */
+            --accent-gold: #D9A441;
+            --accent-gold-dark: #C7922E;
+
+            /* Antrinis akcentas (tamsiai mėlyna/pilka) – CTA, hero */
+            --accent-dark: #3C485A;
+            --accent-dark-hover: #2D3848;
+
+            /* Hero gradientas: kairė tamsiai pilkai melsva → dešinė šalta pilka (švaresnis tech) */
+            --hero-gradient-start: #3C485A;
+            --hero-gradient-mid: #4A5568;
+            --hero-gradient-end: #5C6370;
+            --cta-bg: #445260;
+            --cta-text: #FFFFFF;
+            --cta-hover: var(--accent-dark-hover);
+
+            /* Tertiarinė (bibliotekos identitetas) – teal */
+            --tertiary: #0D9488;
+            --tertiary-light: #CCFBF1;
+
+            /* Semantiniai – suderinti su palete (muted gold) */
+            --blue: #3C485A;
+            --blue-light: #E8ECF0;
+            --orange: #C7922E;
+            --orange-light: #FBF6EB;
             --green: #38A169;
-            --purple: #805AD5;
+            --purple: #6B5B95;
+        }
+
+        /* Skip link – prieinamumas (matomas tik su focus) */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            z-index: 9999;
+            padding: 14px 24px;
+            background: var(--cta-bg);
+            color: var(--cta-text);
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 0 0 10px 0;
+            transition: left 0.2s ease;
+        }
+
+        .skip-link:focus {
+            left: 0;
+            outline: 3px solid var(--text);
+            outline-offset: 2px;
         }
 
         body {
@@ -47,12 +90,42 @@
 
         /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, #2B6CB0 0%, #2C5282 100%);
+            position: relative;
+            background: linear-gradient(to right, var(--hero-gradient-start) 0%, var(--hero-gradient-mid) 50%, var(--hero-gradient-end) 100%);
             color: white;
             padding: 56px 48px;
             border-radius: 20px;
             margin-bottom: 48px;
-            box-shadow: 0 20px 40px rgba(43, 108, 176, 0.2);
+            box-shadow: 0 20px 40px rgba(60, 72, 90, 0.25);
+            overflow: hidden;
+        }
+
+        /* Tamsesnis overlay 10% – tekstas aiškesnis, spalva nusėda, premium pojūtis */
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header .header-badges,
+        .header h1,
+        .header p,
+        .header .header-meta,
+        .header .header-cta {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .badge {
@@ -60,13 +133,16 @@
             background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px); /* Safari palaikymas */
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 20px;
+        }
+
+        .badge-spinoff {
+            border: 1px solid rgba(217, 164, 65, 0.5);
         }
 
         .header h1 {
@@ -74,20 +150,347 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 16px;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
         }
 
         .header p {
-            font-size: 22px;
+            font-size: 20px;
             line-height: 1.5;
             opacity: 0.95;
             font-weight: 500;
         }
 
+        .header-meta {
+            font-size: 15px;
+            font-weight: 600;
+            opacity: 0.85;
+            margin-top: 8px;
+        }
+
+        .header-cta {
+            margin-top: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--cta-bg);
+            color: var(--cta-text);
+            padding: 16px 32px;
+            min-height: 44px;
+            min-width: 44px;
+            border-radius: 12px;
+            border: none;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(60, 72, 90, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            outline: none;
+        }
+
+        .cta-button:hover {
+            background: var(--cta-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(60, 72, 90, 0.55), 0 0 20px rgba(255, 255, 255, 0.12);
+        }
+
+        .cta-button:focus-visible {
+            outline: 3px solid var(--white);
+            outline-offset: 3px;
+        }
+
+        .cta-button-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--white);
+            padding: 16px 32px;
+            min-height: 44px;
+            min-width: 44px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .cta-button-outline:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .cta-button-outline:focus-visible {
+            outline: 3px solid var(--white);
+            outline-offset: 3px;
+        }
+
+        .cta-secondary {
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .cta-secondary:hover {
+            color: var(--white);
+        }
+
+        /* ===== MODAL / KONTAKTŲ FORMA (rezervuota būsimai – žr. INTEGRACIJA.md) ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--bg);
+            border: none;
+            min-width: 44px;
+            min-height: 44px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-light);
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .modal-close:focus-visible {
+            outline: 3px solid var(--accent-dark);
+            outline-offset: 2px;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .modal-desc {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .modal-privacy {
+            font-size: 14px;
+        }
+
+        .modal-privacy a {
+            color: var(--accent-dark);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            min-height: 44px;
+            border: 3px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-dark);
+            box-shadow: 0 0 0 4px rgba(60, 72, 90, 0.12);
+        }
+
+        .form-input:focus-visible {
+            outline: none;
+            border-color: var(--accent-dark);
+            box-shadow: 0 0 0 4px rgba(60, 72, 90, 0.2);
+        }
+
+        .form-input.error {
+            border-color: #E53E3E;
+        }
+
+        .form-error {
+            color: #E53E3E;
+            font-size: 14px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            min-height: 44px;
+            background: var(--accent-dark);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-submit:hover:not(:disabled) {
+            background: var(--accent-dark-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(60, 72, 90, 0.4);
+        }
+
+        .form-submit:focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
+        .form-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-submit.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .form-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 3px solid white;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-success-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+        }
+
+        .form-success h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .form-success p {
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
         /* ===== INSTRUCTIONS BOX ===== */
         .instructions {
             background: var(--orange-light);
-            border: 3px solid var(--orange);
+            border: 3px solid var(--accent-gold);
             border-radius: 16px;
             padding: 36px 40px;
             margin-bottom: 48px;
@@ -96,7 +499,7 @@
         .instructions-title {
             font-size: 24px;
             font-weight: 800;
-            color: var(--orange);
+            color: var(--accent-dark);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
@@ -124,19 +527,73 @@
             position: absolute;
             left: -28px;
             font-weight: 800;
-            color: var(--orange);
+            color: var(--accent-gold-dark);
             font-size: 20px;
         }
 
         .instructions code {
             background: white;
-            border: 2px solid var(--orange);
+            border: 2px solid var(--accent-gold);
             padding: 4px 10px;
             border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 16px;
             font-weight: 700;
-            color: var(--orange);
+            color: var(--accent-dark);
+        }
+
+        /* ===== LEARNING OBJECTIVES (M1) ===== */
+        .objectives {
+            background: var(--white);
+            border: 3px solid var(--accent-dark);
+            border-radius: 16px;
+            padding: 28px 36px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .objectives h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .objectives ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .objectives li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 10px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .objectives li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: 800;
+            color: var(--green);
+            font-size: 18px;
+        }
+
+        .prompt-time {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-left: 8px;
         }
 
         /* ===== PROMPT CARD ===== */
@@ -156,8 +613,8 @@
         }
 
         .prompt-header {
-            background: linear-gradient(to right, #EBF8FF, #F7FAFC);
-            border-bottom: 3px solid var(--border);
+            background: linear-gradient(to right, var(--blue-light), var(--orange-light));
+            border-bottom: 3px solid var(--accent-dark);
             padding: 36px 40px;
         }
 
@@ -171,22 +628,22 @@
         .number {
             width: 48px;
             height: 48px;
-            background: var(--blue);
-            color: white;
+            background: var(--accent-gold);
+            color: var(--text);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
             font-weight: 800;
-            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.3);
+            box-shadow: 0 4px 12px rgba(217, 164, 65, 0.35);
         }
 
         .category {
             padding: 8px 16px;
-            background: var(--blue-light);
-            color: var(--blue);
-            border: 2px solid var(--blue);
+            background: var(--tertiary-light);
+            color: var(--tertiary);
+            border: 2px solid var(--tertiary);
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
@@ -215,8 +672,8 @@
         }
 
         .code-block {
-            background: #F7FAFC;
-            border: 3px solid var(--blue);
+            background: #F7F8FA;
+            border: 3px solid var(--accent-dark);
             border-radius: 12px;
             padding: 32px;
             margin-bottom: 24px;
@@ -224,24 +681,27 @@
             transition: all 0.2s;
             position: relative;
             outline: none;
+            min-height: 44px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .code-block:focus {
-            outline: 3px solid var(--blue);
+            outline: 3px solid var(--accent-dark);
             outline-offset: 2px;
         }
 
         .code-block:focus-visible {
-            outline: 3px solid var(--blue);
+            outline: 3px solid var(--accent-gold);
             outline-offset: 2px;
         }
 
         .code-block::before {
-            content: '💡 Spauskite čia ir nukopijuokite tekstą';
+            content: '💡 Spausk čia ir nukopijuok';
             position: absolute;
             top: -12px;
             right: 20px;
-            background: var(--blue);
+            background: var(--accent-dark);
             color: white;
             padding: 6px 14px;
             border-radius: 6px;
@@ -251,18 +711,19 @@
             transition: opacity 0.2s;
         }
 
-        .code-block:hover::before {
+        .code-block:hover::before,
+        .code-block:focus-visible::before {
             opacity: 1;
         }
 
         .code-block:hover {
-            background: #EBF8FF;
-            border-color: var(--purple);
-            box-shadow: 0 0 0 4px rgba(128, 90, 213, 0.1);
+            background: var(--orange-light);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.15);
         }
 
         .code-block.selected {
-            background: var(--blue-light);
+            background: var(--orange-light);
             border-color: var(--green);
             box-shadow: 0 0 0 4px rgba(56, 161, 105, 0.2);
         }
@@ -276,10 +737,10 @@
             font-weight: 500;
         }
 
-        /* Info box */
+        /* Info box – tertiarinė (teal) */
         .info-box {
-            background: var(--blue-light);
-            border: 2px solid var(--blue);
+            background: var(--tertiary-light);
+            border: 2px solid var(--tertiary);
             border-radius: 12px;
             padding: 24px 28px;
             display: flex;
@@ -297,7 +758,7 @@
             display: block;
             font-size: 18px;
             font-weight: 800;
-            color: var(--blue);
+            color: var(--tertiary);
             margin-bottom: 6px;
         }
 
@@ -318,9 +779,11 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: var(--blue);
+            background: var(--accent-dark);
             color: white;
             padding: 18px 36px;
+            min-height: 44px;
+            min-width: 44px;
             border-radius: 12px;
             border: none;
             font-size: 18px;
@@ -328,24 +791,24 @@
             cursor: pointer;
             transition: all 0.2s;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 12px rgba(43, 108, 176, 0.3);
+            box-shadow: 0 4px 12px rgba(60, 72, 90, 0.35);
             outline: none;
         }
 
         .btn:focus {
-            outline: 3px solid var(--blue);
+            outline: 3px solid var(--accent-dark);
             outline-offset: 2px;
         }
 
         .btn:focus-visible {
-            outline: 3px solid var(--blue);
+            outline: 3px solid var(--accent-gold);
             outline-offset: 2px;
         }
 
         .btn:hover {
-            background: #2C5282;
+            background: var(--accent-dark-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(43, 108, 176, 0.4);
+            box-shadow: 0 8px 20px rgba(60, 72, 90, 0.4);
         }
 
         .btn:active {
@@ -359,6 +822,119 @@
 
         .btn.success:hover {
             background: #2F855A;
+        }
+
+        .prompt-cta {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .prompt-done-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            min-height: 44px;
+            padding: 8px 0;
+        }
+
+        .prompt-done-wrap input {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            min-height: 22px;
+            accent-color: var(--green);
+        }
+
+        /* ===== PROGRESS INDICATOR (S1) ===== */
+        .progress-wrap {
+            background: var(--orange-light);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            min-height: 44px;
+        }
+
+        .progress-wrap p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent-gold);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== KAS TOLIAU (S2) ===== */
+        .next-steps {
+            background: var(--white);
+            border: 3px solid var(--tertiary);
+            border-radius: 16px;
+            padding: 28px 36px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .next-steps h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--tertiary);
+            margin-bottom: 16px;
+        }
+
+        .next-steps p {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .next-steps-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .next-steps-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 18px;
+            min-height: 44px;
+            line-height: 24px;
+            background: var(--tertiary);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .next-steps-links a:hover {
+            background: #0f766e;
+        }
+
+        .next-steps-links a:focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 2px;
         }
 
         /* ===== TOAST ===== */
@@ -401,9 +977,60 @@
             font-weight: 800;
         }
 
+        /* ===== BENDRUOMENĖ (puslapio pabaiga) ===== */
+        .community {
+            margin-top: 48px;
+            padding: 40px;
+            background: linear-gradient(to right, var(--blue-light), var(--orange-light));
+            border: 3px solid var(--accent-dark);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .community h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .community p {
+            font-size: 17px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .community a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+        }
+
+        .community a:hover {
+            background: #20bd5a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+        }
+
+        .community a:focus-visible {
+            outline: 3px solid var(--accent-dark);
+            outline-offset: 2px;
+        }
+
         /* ===== FOOTER ===== */
         .footer {
-            margin-top: 64px;
+            margin-top: 48px;
             padding: 48px;
             background: white;
             border: 3px solid var(--border);
@@ -456,6 +1083,22 @@
             font-weight: 500;
         }
 
+        .copyright a {
+            color: var(--accent-dark);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .copyright a:hover {
+            color: var(--text);
+        }
+
+        .copyright a:focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 2px;
+        }
+
         /* ===== UTILITIES ===== */
         .hidden {
             position: absolute;
@@ -496,6 +1139,12 @@
                 font-size: 18px;
             }
 
+            .cta-button {
+                min-height: 48px;
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+
             .instructions {
                 padding: 28px 24px;
             }
@@ -526,8 +1175,28 @@
                 padding: 32px 20px;
             }
 
+            .header-cta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .header h1 {
                 font-size: 28px;
+            }
+
+            .cta-button,
+            .cta-button-outline {
+                min-height: 48px;
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .community {
+                padding: 28px 20px;
+            }
+
+            .community h2 {
+                font-size: 20px;
             }
 
             .prompt-title {
@@ -541,6 +1210,100 @@
             .btn {
                 padding: 14px 28px;
                 font-size: 16px;
+                min-height: 44px;
+            }
+
+            .modal-overlay {
+                padding: 12px;
+                align-items: flex-end;
+            }
+
+            .modal {
+                max-height: 90vh;
+                border-radius: 20px 20px 0 0;
+                padding: 24px 20px 32px;
+            }
+
+            .modal-close {
+                top: 12px;
+                right: 12px;
+            }
+
+            .toast {
+                font-size: 16px;
+                padding: 16px 20px;
+                left: 12px;
+                right: 12px;
+                bottom: 16px;
+            }
+        }
+
+        /* Mobile UI First: mažiausias viewport (320–375px) */
+        @media (max-width: 375px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .header {
+                padding: 24px 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .next-steps-links {
+                gap: 10px;
+            }
+
+            .next-steps-links a {
+                padding: 12px 14px;
+                min-height: 44px;
+                font-size: 14px;
+            }
+
+            .instructions {
+                padding: 20px 16px;
+            }
+
+            .prompt-header,
+            .prompt-body,
+            .prompt-footer {
+                padding: 20px 16px;
+            }
+
+            .code-text {
+                font-size: 13px;
+                word-break: break-word;
+            }
+
+            .objectives {
+                padding: 20px 16px;
+            }
+
+            .objectives h2 {
+                font-size: 18px;
+            }
+
+            .objectives li {
+                font-size: 15px;
+            }
+
+            .progress-wrap {
+                padding: 12px 16px;
+            }
+
+            .next-steps {
+                padding: 20px 16px;
+            }
+
+            .next-steps h2 {
+                font-size: 18px;
+            }
+
+            .next-steps-links a {
+                padding: 12px 14px;
+                font-size: 14px;
             }
         }
 
@@ -571,28 +1334,58 @@
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Pereiti prie turinio</a>
     <div class="container">
-        
-        <!-- HEADER -->
-        <header class="header" role="banner">
-            <div class="badge" aria-label="Projekto kategorija" role="text">DI Biblioteka</div>
-            <h1>8 paprasti žingsniai, kad DI pradėtų dirbti už tave</h1>
-            <p>Procesai ir automatizacija - per kelias minutes</p>
+        <main id="main-content">
+
+        <!-- HERO -->
+        <header class="header">
+            <div class="header-badges">
+                <span class="badge" role="status" aria-label="Promptų anatomija">Promptų anatomija</span>
+                <span class="badge badge-spinoff" role="status" aria-label="Promptų anatomijos spin-off projektas">Spin-off Nr. 1</span>
+            </div>
+            <h1>Leisk DI atlikti 30–50% tavo kasdienių užduočių</h1>
+            <p>8 pratimai su paruoštais šablonais – rezultatai per kelias minutes.</p>
+            <p class="header-meta" role="status" aria-label="Orientacinis laikas">~30 min</p>
+            <div class="header-cta">
+                <a href="#block1" class="cta-button" aria-label="Pradėti nemokamai – pereiti prie pirmo prompto">Pradėti nemokamai</a>
+                <a href="#community" class="cta-button-outline" aria-label="Prisijunk prie bendruomenės – WhatsApp grupė">Prisijunk prie bendruomenės</a>
+            </div>
         </header>
 
-        <!-- INSTRUCTIONS -->
+        <!-- KĄ REALIAI GAUSI -->
+        <section class="objectives" aria-labelledby="objectives-title">
+            <h2 id="objectives-title"><span aria-hidden="true">🎯</span> Ką realiai gausi</h2>
+            <ul>
+                <li>Sutaupysi 3–5 valandas per savaitę</li>
+                <li>Sumažinsi klaidas DI atsakymuose</li>
+                <li>Turėsi 8 kopijuojamų šablonų kasdieniam darbui</li>
+                <li>Suprasi, kaip valdyti DI kontekstą, o ne tik „rašyti promptus“</li>
+            </ul>
+        </section>
+
+        <!-- INSTRUCTIONS (M4: laiko signalas) -->
         <section class="instructions" aria-labelledby="instructions-title">
             <h2 class="instructions-title" id="instructions-title">
                 <span aria-hidden="true" role="img">📖</span>
                 <span>Kaip naudoti šią biblioteką</span>
+                <span class="prompt-time" role="status" aria-label="Orientacinis laikas: 3–5 min per žingsnį">~3–5 min per žingsnį</span>
             </h2>
             <ol>
-                <li>Pasirinkite promptą ir spauskite ant jo – tekstas automatiškai pažymėsis</li>
-                <li>Spauskite mygtuką <strong>"Kopijuoti promptą"</strong> arba naudokite klaviatūros kombinaciją <code>Ctrl+C</code> / <code>Cmd+C</code></li>
-                <li><strong>Įklijuokite</strong> į ChatGPT, Claude ar kitą DI įrankį</li>
-                <li>Pakeiskite <code>[ĮMONĖ]</code> ir <code>[MANO ROLĖ]</code> savo duomenimis ir gaukite rezultatus!</li>
+                <li>Pasirink promptą ir spausk ant jo – tekstas pažymėsis</li>
+                <li>Spausk <strong>„Kopijuoti promptą“</strong> arba <code>Ctrl+C</code> / <code>Cmd+C</code></li>
+                <li>Įklijuok į ChatGPT, Claude ar kitą DI įrankį</li>
+                <li>Pakeisk <code>[ĮMONĖ]</code> ir <code>[MANO ROLĖ]</code> savo duomenimis – ir gauk rezultatą</li>
             </ol>
         </section>
+
+        <!-- PROGRESS INDICATOR (S1) -->
+        <div class="progress-wrap" id="progressIndicator" aria-live="polite" aria-atomic="true">
+            <p id="progressText">Panaudojai 0 iš 8 promptų</p>
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="8" aria-label="Progresas">
+                <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+            </div>
+        </div>
 
         <!-- PROMPT 1 -->
         <article class="prompt">
@@ -600,9 +1393,10 @@
                 <div class="prompt-meta">
                     <div class="number">1</div>
                     <div class="category">Pagrindas</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">DI Konteksto Patikra</h2>
-                <p class="prompt-desc">Patikrinkite, ką ChatGPT žino apie jūsų organizaciją ir kur gali suklaidinti</p>
+                <p class="prompt-desc">Patikrink, ką ChatGPT žino apie tavo organizaciją ir kur gali suklaidinti</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -629,11 +1423,12 @@ Pabaigoje aiškiai pažymėk:
                     <div class="info-icon" aria-hidden="true">💡</div>
                     <div class="info-content">
                         <strong>Kodėl tai svarbu?</strong>
-                        <p>Sumažina DI "haliucinacijas" ir klaidingus sprendimus, suteikdamas aiškų vaizdą, ką DI tikrai žino apie jūsų kontekstą.</p>
+                        <p>Sumažina DI „haliucinacijas“ ir klaidingus sprendimus – aiškiai matai, ką DI tikrai žino apie tavo kontekstą.</p>
                     </div>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt1')"
                         aria-label="Kopijuoti promptą 1 į mainų atmintinę"
@@ -641,6 +1436,10 @@ Pabaigoje aiškiai pažymėk:
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="1" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -650,9 +1449,10 @@ Pabaigoje aiškiai pažymėk:
                 <div class="prompt-meta">
                     <div class="number">2</div>
                     <div class="category">Analizė</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Organizacijos Portretas</h2>
-                <p class="prompt-desc">Sukurkite išsamų jūsų organizacijos profilį ir kontekstą</p>
+                <p class="prompt-desc">Sukurk išsamų savo organizacijos profilį ir kontekstą</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -684,6 +1484,7 @@ Pažymėk, kur daromos prielaidos.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt2')"
                         aria-label="Kopijuoti promptą 2 į mainų atmintinę"
@@ -691,6 +1492,10 @@ Pažymėk, kur daromos prielaidos.</pre>
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="2" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -700,9 +1505,10 @@ Pažymėk, kur daromos prielaidos.</pre>
                 <div class="prompt-meta">
                     <div class="number">3</div>
                     <div class="category">Rolė</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Mano Rolė Organizacijoje</h2>
-                <p class="prompt-desc">Aiškiai apibrėžkite savo rolės tikslą, atsakomybes ir įtaką</p>
+                <p class="prompt-desc">Aiškiai apibrėžk savo rolės tikslą, atsakomybes ir įtaką</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -729,11 +1535,12 @@ Rašyk glaustai, be teorijos.</pre>
                     <div class="info-icon" aria-hidden="true">💡</div>
                     <div class="info-content">
                         <strong>Rezultatas:</strong>
-                        <p>Gausite aiškų rolės aprašymą, kurį galėsite naudoti kaip atskaitos tašką visiems tolimesniems žingsniams.</p>
+                        <p>Gausi aiškų rolės aprašymą – naudok kaip atskaitos tašką tolesniems žingsniams.</p>
                     </div>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt3')"
                         aria-label="Kopijuoti promptą 3 į mainų atmintinę"
@@ -741,6 +1548,10 @@ Rašyk glaustai, be teorijos.</pre>
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="3" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -750,9 +1561,10 @@ Rašyk glaustai, be teorijos.</pre>
                 <div class="prompt-meta">
                     <div class="number">4</div>
                     <div class="category">Dokumentas</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Pareigybės Instrukcija + KPI</h2>
-                <p class="prompt-desc">Praktiškas pareigybės aprašas su aiškiais sėkmės rodikliais</p>
+                <p class="prompt-desc">Sukurk praktišką pareigybių aprašą su KPI</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -783,6 +1595,7 @@ Orientacija – realus darbas, ne HR formalizmas.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt4')"
                         aria-label="Kopijuoti promptą 4 į mainų atmintinę"
@@ -790,6 +1603,10 @@ Orientacija – realus darbas, ne HR formalizmas.</pre>
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="4" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -799,9 +1616,10 @@ Orientacija – realus darbas, ne HR formalizmas.</pre>
                 <div class="prompt-meta">
                     <div class="number">5</div>
                     <div class="category">Procesai</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Pagrindiniai Darbo Procesai</h2>
-                <p class="prompt-desc">Identifikuokite, kur dingsta laikas ir energija (Pareto 80/20 principas)</p>
+                <p class="prompt-desc">Identifikuok, kur dingsta laikas ir energija (Pareto 80/20)</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -826,11 +1644,12 @@ Kiekvienam procesui:
                     <div class="info-icon" aria-hidden="true">💡</div>
                     <div class="info-content">
                         <strong>Optimizacija:</strong>
-                        <p>Supratus procesus, galėsite identifikuoti, kuriuose iš jų DI gali padaryti didžiausią įtaką.</p>
+                        <p>Supratus procesus, gali nustatyti, kur DI padarys didžiausią įtaką.</p>
                     </div>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt5')"
                         aria-label="Kopijuoti promptą 5 į mainų atmintinę"
@@ -838,6 +1657,10 @@ Kiekvienam procesui:
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="5" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -847,9 +1670,10 @@ Kiekvienam procesui:
                 <div class="prompt-meta">
                     <div class="number">6</div>
                     <div class="category">DI Integracija</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">DI Pagalba ir Optimizavimas</h2>
-                <p class="prompt-desc">Pavertkite dirbtinį intelektą realiu darbo asistentu</p>
+                <p class="prompt-desc">Paverk DI realiu darbo asistentu</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -881,6 +1705,7 @@ Rašyk non-tech vartotojui.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt6')"
                         aria-label="Kopijuoti promptą 6 į mainų atmintinę"
@@ -888,6 +1713,10 @@ Rašyk non-tech vartotojui.</pre>
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="6" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -897,6 +1726,7 @@ Rašyk non-tech vartotojui.</pre>
                 <div class="prompt-meta">
                     <div class="number">7</div>
                     <div class="category">Biblioteka</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Kasdienė Promptų Biblioteka</h2>
                 <p class="prompt-desc">Paruošti promptai kasdieniniams darbams ir iššūkiams</p>
@@ -926,11 +1756,12 @@ Pateik lentelę:
                     <div class="info-icon" aria-hidden="true">💡</div>
                     <div class="info-content">
                         <strong>Kasdienybės patobulinimas:</strong>
-                        <p>Gausite asmeninę promptų kolekciją, kurią galėsite naudoti kasdien be papildomo galvojimo.</p>
+                        <p>Gausi asmeninę promptų kolekciją – naudok kasdien be papildomo galvojimo.</p>
                     </div>
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt7')"
                         aria-label="Kopijuoti promptą 7 į mainų atmintinę"
@@ -938,6 +1769,10 @@ Pateik lentelę:
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="7" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
@@ -947,9 +1782,10 @@ Pateik lentelę:
                 <div class="prompt-meta">
                     <div class="number">8</div>
                     <div class="category">Simuliacija</div>
+                    <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">Kritinių Situacijų Simuliacija</h2>
-                <p class="prompt-desc">Pasiruoškite spaudimui ir neapibrėžtumui iš anksto</p>
+                <p class="prompt-desc">Pasiruošk spaudimui ir neapibrėžtumui iš anksto</p>
             </div>
             <div class="prompt-body">
                 <div class="code-block" 
@@ -977,6 +1813,7 @@ Pateik:
                 </div>
             </div>
             <div class="prompt-footer">
+                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt8')"
                         aria-label="Kopijuoti promptą 8 į mainų atmintinę"
@@ -984,13 +1821,40 @@ Pateik:
                     <span aria-hidden="true">📋</span>
                     <span>Kopijuoti promptą</span>
                 </button>
+                <label class="prompt-done-wrap">
+                    <input type="checkbox" class="prompt-done" data-prompt-id="8" aria-label="Pažymėti, kad atlikai šį žingsnį">
+                    <span>Pažymėjau kaip atlikau</span>
+                </label>
             </div>
         </article>
 
+        <!-- KAS TOLIAU? (S2) -->
+        <section class="next-steps" aria-labelledby="next-steps-title">
+            <h2 id="next-steps-title">Kas toliau?</h2>
+            <p>Geriausia eiti iš eilės nuo 1 iki 8. Paspaudę nuorodą pereisi prie atitinkamo prompto.</p>
+            <div class="next-steps-links">
+                <a href="#block1">1. Konteksto patikra</a>
+                <a href="#block2">2. Organizacijos portretas</a>
+                <a href="#block3">3. Mano rolė</a>
+                <a href="#block4">4. Pareigybės + KPI</a>
+                <a href="#block5">5. Darbo procesai</a>
+                <a href="#block6">6. DI optimizavimas</a>
+                <a href="#block7">7. Kasdienė biblioteka</a>
+                <a href="#block8">8. Kritinių situacijų simuliacija</a>
+            </div>
+        </section>
+
         <!-- FOOTER -->
-        <footer class="footer" role="contentinfo">
-            <h3>Sėkmingos analizės! <span aria-hidden="true">🚀</span></h3>
-            <p>Nepamirškite pakeisti <strong>[ĮMONĖ]</strong> ir <strong>[MANO ROLĖ]</strong> kiekviename prompte savo duomenimis</p>
+        <!-- BENDRUOMENĖ -->
+        <section class="community" id="community" aria-labelledby="community-title">
+            <h2 id="community-title">Nori daugiau? Prisijunk prie Promptų anatomija WhatsApp grupės!</h2>
+            <p>Bendros diskusijos, patarimai ir naujienos apie promptus ir DI.</p>
+            <a href="https://chat.whatsapp.com/It49fzTl1n90huRCoWWkwu?mode=gi_t" target="_blank" rel="noopener noreferrer" aria-label="Atidaryti Promptų anatomija WhatsApp grupę naujame lange">👉 Prisijungti prie WhatsApp grupės</a>
+        </section>
+
+        <footer class="footer">
+            <h3>Sėkmės analizėms <span aria-hidden="true">🚀</span></h3>
+            <p>Nepamiršk pakeisti <strong>[ĮMONĖ]</strong> ir <strong>[MANO ROLĖ]</strong> savo duomenimis</p>
             <div class="tags" role="list">
                 <span class="tag" role="listitem"><span aria-hidden="true">🤖</span> DI optimizuota</span>
                 <span class="tag" role="listitem"><span aria-hidden="true">📚</span> 8 promptai</span>
@@ -998,10 +1862,11 @@ Pateik:
                 <span class="tag" role="listitem"><span aria-hidden="true">🎯</span> Rezultatai</span>
             </div>
             <div class="copyright">
-                <p>&copy; 2024 Tomas Staniulis. Mokymų medžiaga. Visos teisės saugomos.</p>
+                <p>&copy; 2026 Tomas Staniulis. Mokymų medžiaga. Visos teisės saugomos. <a href="privatumas.html">Privatumas</a></p>
             </div>
         </footer>
 
+        </main>
     </div>
 
     <textarea class="hidden" id="hiddenTextarea"></textarea>
@@ -1013,7 +1878,7 @@ Pateik:
          aria-atomic="true"
          aria-label="Kopijavimo pranešimas">
         <div class="toast-icon" aria-hidden="true">✓</div>
-        <span>Promptas nukopijuotas į mainų atmintinę!</span>
+        <span>Nukopijuota.</span>
     </div>
 
     <script>
@@ -1047,17 +1912,11 @@ Pateik:
              * Pasirinkti tekstą code-block elemente
              */
             function selectText(element) {
-                if (!element) {
-                    console.error('Elementas nerastas');
-                    return;
-                }
+                if (!element) return;
 
                 try {
                     const pre = element.querySelector('pre');
-                    if (!pre) {
-                        console.error('Pre elementas nerastas');
-                        return;
-                    }
+                    if (!pre) return;
 
                     const range = document.createRange();
                     range.selectNodeContents(pre);
@@ -1070,9 +1929,7 @@ Pateik:
                     setTimeout(() => {
                         element.classList.remove('selected');
                     }, CONFIG.SELECTION_TIMEOUT);
-                } catch (error) {
-                    console.error('Klaida pasirenkant tekstą:', error);
-                }
+                } catch (_) { /* fallback: vartotojas gali pažymėti ranka */ }
             }
 
             /**
@@ -1106,21 +1963,18 @@ Pateik:
                 }
 
                 if (!button || !promptId) {
-                    console.error('Trūksta parametrų: button arba promptId');
                     showError(button, 'Klaida: trūksta parametrų');
                     return;
                 }
 
                 const promptElement = document.getElementById(promptId);
                 if (!promptElement) {
-                    console.error(`Promptas nerastas: ${promptId}`);
                     showError(button, 'Promptas nerastas');
                     return;
                 }
 
                 const promptText = promptElement.textContent?.trim();
                 if (!promptText) {
-                    console.error('Promptas tuščias');
                     showError(button, 'Promptas tuščias');
                     return;
                 }
@@ -1134,8 +1988,7 @@ Pateik:
                             showSuccess(button);
                             isCopying = false;
                         })
-                        .catch((error) => {
-                            console.warn('Clipboard API nepavyko, naudoju fallback:', error);
+                        .catch(() => {
                             fallbackCopy(promptText, button);
                         });
                 } else {
@@ -1150,7 +2003,6 @@ Pateik:
             function fallbackCopy(text, button) {
                 const textarea = document.getElementById('hiddenTextarea');
                 if (!textarea) {
-                    console.error('Hidden textarea nerastas');
                     showError(button, 'Kopijavimas nepavyko');
                     isCopying = false;
                     return;
@@ -1182,9 +2034,8 @@ Pateik:
                     } else {
                         throw new Error('execCommand copy nepavyko');
                     }
-                } catch (error) {
-                    console.error('Fallback kopijavimas nepavyko:', error);
-                    showError(button, 'Kopijavimas nepavyko. Bandykite pažymėti tekstą rankiniu būdu.');
+                } catch (_) {
+                    showError(button, 'Nepavyko. Pažymėk tekstą ranka ir nukopijuok.');
                 } finally {
                     isCopying = false;
                 }
@@ -1219,7 +2070,7 @@ Pateik:
                 if (!button) return;
 
                 const original = button.innerHTML;
-                const errorMessage = message || 'Pažymėkite tekstą';
+                const errorMessage = message || 'Pažymėk tekstą';
                 button.innerHTML = `<span aria-hidden="true">⚠</span><span>${errorMessage}</span>`;
                 button.setAttribute('aria-label', `Klaida: ${errorMessage}`);
                 
@@ -1272,18 +2123,72 @@ Pateik:
                 }
             });
 
+            // Kontaktų forma ir Google Sheets integracija šiame etape išjungta – minimali aplikacija, jokių duomenų nerinkime. Galima įjungti vėlesniuose etapuose (žr. INTEGRACIJA.md).
+
+            // ===== "PAŽYMĖJAU KAIP ATLIKAU" – localStorage (M2) =====
+            const PROMPT_DONE_KEY_PREFIX = 'di_prompt_done_';
+            function loadPromptDoneState() {
+                const checkboxes = document.querySelectorAll('.prompt-done');
+                checkboxes.forEach(function(cb) {
+                    const id = cb.getAttribute('data-prompt-id');
+                    if (id) {
+                        try {
+                            cb.checked = localStorage.getItem(PROMPT_DONE_KEY_PREFIX + id) === 'true';
+                        } catch (e) { /* ignore */ }
+                    }
+                });
+            }
+            function savePromptDoneState(promptId, checked) {
+                try {
+                    localStorage.setItem(PROMPT_DONE_KEY_PREFIX + promptId, checked ? 'true' : 'false');
+                } catch (e) { /* ignore */ }
+            }
+
+            function getPromptDoneCount() {
+                var count = 0;
+                try {
+                    for (var i = 1; i <= 8; i++) {
+                        if (localStorage.getItem(PROMPT_DONE_KEY_PREFIX + i) === 'true') count++;
+                    }
+                } catch (e) { /* ignore */ }
+                return count;
+            }
+
+            function updateProgressIndicator() {
+                var count = getPromptDoneCount();
+                var textEl = document.getElementById('progressText');
+                var fillEl = document.getElementById('progressBarFill');
+                var barEl = document.querySelector('.progress-bar[role="progressbar"]');
+                if (textEl) textEl.textContent = count === 8 ? 'Puiku – panaudojai visus 8.' : 'Panaudojai ' + count + ' iš 8 promptų.';
+                if (fillEl) fillEl.style.width = (count / 8 * 100) + '%';
+                if (barEl) {
+                    barEl.setAttribute('aria-valuenow', count);
+                }
+            }
+
             // ===== INICIALIZACIJA =====
             document.addEventListener('DOMContentLoaded', function() {
                 // Pridėti klaviatūros navigaciją visiems code-block elementams
                 const codeBlocks = document.querySelectorAll('.code-block');
                 codeBlocks.forEach(block => {
-                    // ARIA atributai jau pridėti HTML, tik patvirtiname
                     if (!block.hasAttribute('tabindex')) {
                         block.setAttribute('tabindex', '0');
                     }
                 });
 
-                console.log('DI Promptų Biblioteka inicializuota sėkmingai');
+                // M2: atkurti ir susieti "Pažymėjau kaip atlikau" checkbox būseną
+                loadPromptDoneState();
+                document.querySelectorAll('.prompt-done').forEach(function(cb) {
+                    cb.addEventListener('change', function() {
+                        const id = cb.getAttribute('data-prompt-id');
+                        if (id) savePromptDoneState(id, cb.checked);
+                        updateProgressIndicator();
+                    });
+                });
+
+                // S1: progreso indikatorius
+                updateProgressIndicator();
+
             });
         })();
     </script>

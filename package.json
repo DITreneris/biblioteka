@@ -1,0 +1,18 @@
+{
+  "name": "di-promptu-biblioteka",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DI Promptų Biblioteka – statinė HTML platforma",
+  "scripts": {
+    "test": "node tests/structure.test.js && npm run lint:html && npm run lint:js",
+    "test:structure": "node tests/structure.test.js",
+    "lint:html": "npx html-validator-cli --file index.html",
+    "lint:js": "eslint . --ext .js"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "html-validator-cli": "^7.0.0",
+    "pa11y": "^6.2.3",
+    "serve": "^14.2.1"
+  }
+}
