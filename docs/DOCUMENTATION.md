@@ -23,6 +23,7 @@
 | DEPLOYMENT.md | Deploy instrukcijos, troubleshooting | QA / Orchestrator | Platforma, URL, post-deploy |
 | docs/QA_STANDARTAS.md | QA standartas (nuoroda spinoff01) | QA | Kriterijai, komandos, spinoff01 |
 | docs/TESTAVIMAS.md | Gyvo testavimo scenarijai ir žurnalas | QA | Po deploy testavimas, rezultatai |
+| docs/BULLET_PROOF_PROMPTS.md | Promptų kokybės standartas (bullet-proof, META/INPUT/OUTPUT) | Content / QA | Atnaujinti po turinio/struktūros pakeitimų |
 
 ---
 

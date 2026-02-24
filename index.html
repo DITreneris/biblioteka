@@ -579,10 +579,24 @@
             font-size: 22px;
             font-weight: 800;
             color: var(--accent-dark);
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .objectives h2 .lucide,
+        .objectives h2 i[data-lucide] {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .objectives-intro {
+            font-size: 17px;
+            line-height: 1.5;
+            color: var(--text);
+            margin-bottom: 12px;
         }
 
         .objectives ul {
@@ -591,21 +605,22 @@
         }
 
         .objectives li {
-            position: relative;
-            padding-left: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
             margin-bottom: 10px;
             font-size: 17px;
             line-height: 1.6;
             color: var(--text);
         }
 
-        .objectives li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            font-weight: 800;
+        .objectives li .lucide,
+        .objectives li i[data-lucide] {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
             color: var(--green);
-            font-size: 18px;
+            margin-top: 2px;
         }
 
         .prompt-time {
@@ -720,10 +735,11 @@
         }
 
         .code-block::before {
-            content: '💡 Spausk čia ir nukopijuok';
+            content: 'Spausk čia ir nukopijuok';
             position: absolute;
-            top: -12px;
+            top: -10px;
             right: 20px;
+            transform: translateY(-100%);
             background: var(--accent-dark);
             color: white;
             padding: 6px 14px;
@@ -732,6 +748,7 @@
             font-weight: 700;
             opacity: 0;
             transition: opacity 0.2s;
+            z-index: 1;
         }
 
         .code-block:hover::before,
@@ -760,6 +777,45 @@
             font-weight: 500;
         }
 
+        /* Prieš naudojant – instrukcijos (nekopijuojamos) */
+        .before-use {
+            margin-top: 20px;
+            margin-bottom: 24px;
+            padding: 20px 24px;
+            background: #F0F4F8;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .before-use-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0 0 12px 0;
+        }
+
+        .before-use p {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text);
+            margin: 0 0 10px 0;
+        }
+
+        .before-use p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .before-use ul {
+            margin: 4px 0 12px 0;
+            padding-left: 20px;
+        }
+
+        .before-use li {
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
         /* Info box – tertiarinė (teal) */
         .info-box {
             background: var(--tertiary-light);
@@ -775,6 +831,12 @@
             font-size: 28px;
             line-height: 1;
             flex-shrink: 0;
+        }
+
+        .info-icon .lucide,
+        .info-icon svg {
+            width: 28px;
+            height: 28px;
         }
 
         .info-content strong {
@@ -828,6 +890,13 @@
             outline-offset: 2px;
         }
 
+        .btn .lucide,
+        .btn svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
         .btn:hover {
             background: var(--accent-dark-hover);
             transform: translateY(-2px);
@@ -845,13 +914,6 @@
 
         .btn.success:hover {
             background: #2F855A;
-        }
-
-        .prompt-cta {
-            font-size: 15px;
-            color: var(--text-light);
-            margin-bottom: 16px;
-            line-height: 1.5;
         }
 
         .prompt-done-wrap {
@@ -1000,6 +1062,12 @@
             font-weight: 800;
         }
 
+        .toast-icon .lucide,
+        .toast-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
         /* ===== BENDRUOMENĖ (puslapio pabaiga) ===== */
         .community {
             margin-top: 48px;
@@ -1137,6 +1205,16 @@
             font-size: 15px;
             font-weight: 700;
             color: var(--text-light);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag .lucide,
+        .tag svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
 
         .copyright {
@@ -1415,7 +1493,7 @@
             </div>
             <h1>Leisk DI atlikti 30–50% tavo kasdienių užduočių</h1>
             <p>8 pratimai su paruoštais šablonais – rezultatai per kelias minutes.</p>
-            <p class="header-meta" role="status" aria-label="Orientacinis laikas">~30 min</p>
+            <p class="header-meta" role="status" aria-label="Kam skirta">Kam? Vadovams, specialistams, konsultantams, freelance.</p>
             <div class="header-cta">
                 <a href="#block1" class="cta-button" aria-label="Pradėti nemokamai – pereiti prie pirmo prompto">Pradėti nemokamai</a>
                 <a href="#community" class="cta-button-outline" aria-label="Prisijunk prie bendruomenės – WhatsApp grupė">Prisijunk prie bendruomenės</a>
@@ -1424,19 +1502,20 @@
 
         <!-- KĄ REALIAI GAUSI -->
         <section class="objectives" aria-labelledby="objectives-title">
-            <h2 id="objectives-title"><span aria-hidden="true">🎯</span> Ką realiai gausi</h2>
+            <h2 id="objectives-title"><i data-lucide="target" aria-hidden="true"></i> Ką realiai gausi</h2>
+            <p class="objectives-intro">Per 30 minučių įsidiegsi bazinę DI darbo sistemą:</p>
             <ul>
-                <li>Sutaupysi 3–5 valandas per savaitę</li>
-                <li>Sumažinsi klaidas DI atsakymuose</li>
-                <li>Turėsi 8 kopijuojamų šablonų kasdieniam darbui</li>
-                <li>Suprasi, kaip valdyti DI kontekstą, o ne tik „rašyti promptus“</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> 3–5 val. sutaupymas per savaitę</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> Iki 6× mažesnė klaidų rizika</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> 8 standartizuoti šablonai</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> Aiški automatizavimo logika vietoj chaotiškų užklausų</li>
             </ul>
         </section>
 
         <!-- INSTRUCTIONS (M4: laiko signalas) -->
         <section class="instructions" aria-labelledby="instructions-title">
             <h2 class="instructions-title" id="instructions-title">
-                <span aria-hidden="true" role="img">📖</span>
+                <i data-lucide="book-open" aria-hidden="true"></i>
                 <span>Kaip naudoti šią biblioteką</span>
                 <span class="prompt-time" role="status" aria-label="Orientacinis laikas: 3–5 min per žingsnį">~3–5 min per žingsnį</span>
             </h2>
@@ -1444,7 +1523,7 @@
                 <li>Pasirink promptą ir spausk ant jo – tekstas pažymėsis</li>
                 <li>Spausk <strong>„Kopijuoti promptą“</strong> arba <code>Ctrl+C</code> / <code>Cmd+C</code></li>
                 <li>Įklijuok į ChatGPT, Claude ar kitą DI įrankį</li>
-                <li>Pakeisk <code>[ĮMONĖ]</code> ir <code>[MANO ROLĖ]</code> savo duomenimis – ir gauk rezultatą</li>
+                <li>Jei prompte yra <code>[ĮMONĖ]</code> – pakeisk į savo arba kliento įmonę; jei yra <code>[MANO ROLĖ]</code> – pakeisk į savo pareigas. DI rolė (pvz. „kritiškas analitikas“) jau nurodyta prompte – jos keisti nereikia.</li>
             </ol>
         </section>
 
@@ -1475,21 +1554,23 @@
                      aria-label="Pasirinkti ir kopijuoti promptą 1"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt1">Rolė – kritiškas verslo analitikas.
+                    <pre class="code-text" id="prompt1">META: Tu esi kritiškas verslo analitikas. Tikslas: išsiaiškinti, ką DI tikrai žino apie organizaciją ir kur reikia patikslinimų.
 
-Remdamasis tik viešai prieinama informacija ir bendromis rinkos žiniomis,
-aprašyk, kaip TU supranti įmonę [ĮMONĖ].
+INPUT: Įmonė [ĮMONĖ]. Remdamasis tik viešai prieinama informacija ir bendromis rinkos žiniomis, aprašyk, kaip TU supranti šią įmonę. Struktūra: 1) Ką žinai užtikrintai 2) Kokias prielaidas darai 3) Kur trūksta informacijos ir rizikuoji klysti. Pabaigoje aiškiai pažymėk: „Šios vietos reikalauja patikslinimo iš vartotojo“.
 
-Struktūra:
-1) Ką žinai užtikrintai
-2) Kokias prielaidas darai
-3) Kur trūksta informacijos ir rizikuoji klysti
-
-Pabaigoje aiškiai pažymėk:
-„Šios vietos reikalauja patikslinimo iš vartotojo".</pre>
+OUTPUT: Rezultatas: trumpas struktūruotas atsakymas – aiškiai matai, kur DI gali klysti ir ką patikslinti prieš toliau naudodamas.</pre>
                 </div>
+                <section class="before-use" id="before-use-1" aria-labelledby="before-use-title-1">
+                    <h3 class="before-use-title" id="before-use-title-1">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> pradedi analizuoti organizaciją; nori patikrinti, ką DI žino apie įmonę; ruošiesi naudoti DI pagal kontekstą.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Tai nėra klausimynas. Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Kodėl tai svarbu?</strong>
                         <p>Sumažina DI „haliucinacijas“ ir klaidingus sprendimus – aiškiai matai, ką DI tikrai žino apie tavo kontekstą.</p>
@@ -1497,12 +1578,11 @@ Pabaigoje aiškiai pažymėk:
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt1')"
                         aria-label="Kopijuoti promptą 1 į mainų atmintinę"
                         data-prompt-id="prompt1">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1524,28 +1604,30 @@ Pabaigoje aiškiai pažymėk:
                 <p class="prompt-desc">Sukurk išsamų savo organizacijos profilį ir kontekstą</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block2" 
+                <div class="code-block"
+                     id="block2"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 2"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt2">Rolė – patyręs verslo analitikas.
+                    <pre class="code-text" id="prompt2">META: Tu esi patyręs verslo analitikas. Tikslas: sukurti išsamų organizacijos profilį ir kontekstą.
 
-Išanalizuok įmonę [ĮMONĖ].
+INPUT: Įmonė [ĮMONĖ]. Išanalizuok ir aprašyk: apytikslį dydį (darbuotojai, apyvarta); pagrindines veiklos sritis; valdymo / organizacinį modelį; tipinius iššūkius šiame sektoriuje Lietuvoje. Atsakymas – trumpas, struktūruotas. Pažymėk, kur daromos prielaidos.
 
-Aprašyk:
-- apytikslį dydį (darbuotojai, apyvarta);
-- pagrindines veiklos sritis;
-- valdymo / organizacinį modelį;
-- tipinius iššūkius šiame sektoriuje Lietuvoje.
-
-Atsakymas – trumpas, struktūruotas.
-Pažymėk, kur daromos prielaidos.</pre>
+OUTPUT: Rezultatas: organizacijos portretas, kurį galėsi naudoti kaip kontekstą kitiems promptams.</pre>
                 </div>
+                <section class="before-use" id="before-use-2" aria-labelledby="before-use-title-2">
+                    <h3 class="before-use-title" id="before-use-title-2">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> nori išsamaus organizacijos profilio; ruoši kontekstą kitiems promptams; analizuoji klientą ar partnerį.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Taikymas:</strong>
                         <p>Šis promptas sukuria organizacijos kontekstą, kuris bus naudojamas visuose kituose promptuose.</p>
@@ -1553,12 +1635,11 @@ Pažymėk, kur daromos prielaidos.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt2')"
                         aria-label="Kopijuoti promptą 2 į mainų atmintinę"
                         data-prompt-id="prompt2">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1580,28 +1661,31 @@ Pažymėk, kur daromos prielaidos.</pre>
                 <p class="prompt-desc">Aiškiai apibrėžk savo rolės tikslą, atsakomybes ir įtaką</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block3" 
+                <div class="code-block"
+                     id="block3"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 3"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt3">Rolė – organizacijų dizaino konsultantas.
+                    <pre class="code-text" id="prompt3">META: Tu esi organizacijų dizaino konsultantas. Tikslas: aprašyti vartotojo rolę organizacijoje – tikslą, atsakomybes ir įtaką.
 
-Remdamasis organizacijos analize,
-aprašyk rolę [MANO ROLĖ] įmonėje [ĮMONĖ].
+INPUT: Rolė [MANO ROLĖ], įmonė [ĮMONĖ]. Remdamasis organizacijos analize, aprašyk šią rolę. Įtrauk: pagrindinį rolės tikslą; 5–7 pagrindines atsakomybes; sprendimų lygį (operacinis / taktinis / strateginis); kam atsiskaito ir su kuo dirba kasdien. Rašyk glaustai, be teorijos.
 
-Įtrauk:
-- pagrindinį rolės tikslą;
-- 5–7 pagrindines atsakomybes;
-- sprendimų lygį (operacinis / taktinis / strateginis);
-- kam atsiskaito ir su kuo dirba kasdien.
-
-Rašyk glaustai, be teorijos.</pre>
+OUTPUT: Rezultatas: aiškus rolės aprašymas – naudok kaip atskaitos tašką tolesniems žingsniams.</pre>
                 </div>
+                <section class="before-use" id="before-use-3" aria-labelledby="before-use-title-3">
+                    <h3 class="before-use-title" id="before-use-title-3">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> nori suprasti savo rolę; pradedi dirbti su nauja įmone; reikia atskaitos apie pareigas.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva);</li>
+                        <li>[MANO ROLĖ] → tavo pareigos (pvz. Pardavimų vadovas).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Rezultatas:</strong>
                         <p>Gausi aiškų rolės aprašymą – naudok kaip atskaitos tašką tolesniems žingsniams.</p>
@@ -1609,12 +1693,11 @@ Rašyk glaustai, be teorijos.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt3')"
                         aria-label="Kopijuoti promptą 3 į mainų atmintinę"
                         data-prompt-id="prompt3">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1636,27 +1719,31 @@ Rašyk glaustai, be teorijos.</pre>
                 <p class="prompt-desc">Sukurk praktišką pareigybių aprašą su KPI</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block4" 
+                <div class="code-block"
+                     id="block4"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 4"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt4">Rolė – patyręs vadovas.
+                    <pre class="code-text" id="prompt4">META: Tu esi patyręs vadovas. Tikslas: sukurti praktišką pareigybių aprašą su KPI.
 
-Sukurk pareigybės instrukciją rolei [MANO ROLĖ] įmonėje [ĮMONĖ].
+INPUT: Rolė [MANO ROLĖ], įmonė [ĮMONĖ]. Sukurk pareigybės instrukciją. Įtrauk: pagrindines atsakomybes; reikalingas kompetencijas; 5–7 pamatuojamus KPI; kaip atrodo „gera veikla“ po 6 mėn. Orientacija – realus darbas, ne HR formalizmas.
 
-Įtrauk:
-- pagrindines atsakomybes;
-- reikalingas kompetencijas;
-- 5–7 pamatuojamus KPI;
-- kaip atrodo „gera veikla" po 6 mėn.
-
-Orientacija – realus darbas, ne HR formalizmas.</pre>
+OUTPUT: Rezultatas: pareigybės instrukcija, tinkanti asmeniniam vertinimui ar naujo darbuotojo įvedimui.</pre>
                 </div>
+                <section class="before-use" id="before-use-4" aria-labelledby="before-use-title-4">
+                    <h3 class="before-use-title" id="before-use-title-4">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> reikia pareigybių aprašo; ruoši vertinimui ar įvedimui; nori pamatuojamų KPI.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva);</li>
+                        <li>[MANO ROLĖ] → tavo pareigos (pvz. Pardavimų vadovas).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Praktinė vertė:</strong>
                         <p>Šis dokumentas gali būti naudojamas tiek asmeniniam vertinimui, tiek naujo darbuotojo įvedimui.</p>
@@ -1664,12 +1751,11 @@ Orientacija – realus darbas, ne HR formalizmas.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt4')"
                         aria-label="Kopijuoti promptą 4 į mainų atmintinę"
                         data-prompt-id="prompt4">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1691,26 +1777,31 @@ Orientacija – realus darbas, ne HR formalizmas.</pre>
                 <p class="prompt-desc">Identifikuok, kur dingsta laikas ir energija (Pareto 80/20)</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block5" 
+                <div class="code-block"
+                     id="block5"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 5"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt5">Aprašyk 5 svarbiausius procesus,
-kuriuos realiai vykdo rolė [MANO ROLĖ] įmonėje [ĮMONĖ].
+                    <pre class="code-text" id="prompt5">META: Tu esi verslo procesų analitikas. Tikslas: identifikuoti 5 svarbiausius darbo procesus (Pareto 80/20) – kur dingsta laikas ir energija.
 
-Kiekvienam procesui:
-- tikslas;
-- pagrindiniai žingsniai;
-- įtrauktos rolės;
-- kur dažniausiai stringa.
+INPUT: Rolė [MANO ROLĖ], įmonė [ĮMONĖ]. Aprašyk 5 svarbiausius procesus, kuriuos realiai vykdo ši rolė. Kiekvienam procesui: tikslas; pagrindiniai žingsniai; įtrauktos rolės; kur dažniausiai stringa. 80 % – veiksmai, 20 % – paaiškinimai.
 
-80 % – veiksmai, 20 % – paaiškinimai.</pre>
+OUTPUT: Rezultatas: sąrašas procesų, pagal kurį galėsi nustatyti, kur DI padarys didžiausią įtaką (žingsnis 6).</pre>
                 </div>
+                <section class="before-use" id="before-use-5" aria-labelledby="before-use-title-5">
+                    <h3 class="before-use-title" id="before-use-title-5">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> nori suprasti, kur dingsta laikas; optimizuoti darbo dieną; ruoši DI integracijai.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva);</li>
+                        <li>[MANO ROLĖ] → tavo pareigos (pvz. Pardavimų vadovas).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Optimizacija:</strong>
                         <p>Supratus procesus, gali nustatyti, kur DI padarys didžiausią įtaką.</p>
@@ -1718,12 +1809,11 @@ Kiekvienam procesui:
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt5')"
                         aria-label="Kopijuoti promptą 5 į mainų atmintinę"
                         data-prompt-id="prompt5">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1742,31 +1832,29 @@ Kiekvienam procesui:
                     <span class="prompt-time">~3–5 min</span>
                 </div>
                 <h2 class="prompt-title">DI Pagalba ir Optimizavimas</h2>
-                <p class="prompt-desc">Paversk DI</p>
+                <p class="prompt-desc">Paversk DI realiu darbo asistentu – konkrečios idėjos pagal tavo procesus</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block6" 
+                <div class="code-block"
+                     id="block6"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 6"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt6">Rolė – DI diegimo konsultantas.
+                    <pre class="code-text" id="prompt6">META: Tu esi DI diegimo konsultantas. Tikslas: įvertinti procesus ir pateikti konkrečius būdus juos pagerinti naudojant ChatGPT ar kitus DI įrankius.
 
-Įvertink aprašytus procesus ir pateik 8–10 būdų,
-kaip juos pagerinti naudojant ChatGPT ar kitus DI įrankius.
+INPUT: Įvertink (jau aprašytus) procesus ir pateik 8–10 būdų. Kiekvienam: ką daro DI; kurią vietą procese palengvina; reali nauda (laikas / kokybė / kaštai); diegimo sudėtingumas (lengva / vidutinė / sudėtinga). Rašyk non-tech vartotojui.
 
-Kiekvienam:
-- ką daro DI;
-- kurią vietą procese palengvina;
-- reali nauda (laikas / kokybė / kaštai);
-- diegimo sudėtingumas (lengva / vidutinė / sudėtinga).
-
-Rašyk non-tech vartotojui.</pre>
+OUTPUT: Rezultatas: 8–10 konkrečių idėjų, kur DI gali sutaupyti valandų per savaitę.</pre>
                 </div>
+                <section class="before-use" id="before-use-6" aria-labelledby="before-use-title-6">
+                    <h3 class="before-use-title" id="before-use-title-6">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> jau turi procesų aprašymą (žingsnis 5); nori konkrečių DI naudojimo būdų; nori sutaupyti laiko.</p>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Tikras poveikis:</strong>
                         <p>Šis promptas padės identifikuoti konkrečias vietas, kur DI gali sutaupyti valandų per savaitę.</p>
@@ -1774,12 +1862,11 @@ Rašyk non-tech vartotojui.</pre>
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt6')"
                         aria-label="Kopijuoti promptą 6 į mainų atmintinę"
                         data-prompt-id="prompt6">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1801,28 +1888,31 @@ Rašyk non-tech vartotojui.</pre>
                 <p class="prompt-desc">Paruošti promptai kasdieniniams darbams ir iššūkiams</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block7" 
+                <div class="code-block"
+                     id="block7"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 7"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt7">Rolė – promptų inžinierius.
+                    <pre class="code-text" id="prompt7">META: Tu esi promptų inžinierius. Tikslas: sukurti 10–12 trumpų, kasdien naudojamų promptų konkrečiai rolei ir įmonei.
 
-Sukurk 10–12 trumpų, kasdien naudojamų promptų rolei [MANO ROLĖ] įmonėje [ĮMONĖ].
+INPUT: Rolė [MANO ROLĖ], įmonė [ĮMONĖ]. Sukurk promptus, kurie padėtų: planuoti; spręsti problemas; komunikuoti; priimti sprendimus. Pateik lentelę: [PROMPTAS] | [KADA NAUDOJU] | [KOKIĄ PROBLEMĄ SPRENDŽIA].
 
-Promptai turi padėti:
-- planuoti;
-- spręsti problemas;
-- komunikuoti;
-- priimti sprendimus.
-
-Pateik lentelę:
-[PROMPTAS] | [KADA NAUDOJU] | [KOKIĄ PROBLEMĄ SPRENDŽIA].</pre>
+OUTPUT: Rezultatas: asmeninė promptų kolekcija – lentelė, kurią galėsi naudoti kasdien.</pre>
                 </div>
+                <section class="before-use" id="before-use-7" aria-labelledby="before-use-title-7">
+                    <h3 class="before-use-title" id="before-use-title-7">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> nori asmeninių promptų; kasdieniniams darbams ir greitiems sprendimams; nori lentelės [promptas | kada | problema].</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva);</li>
+                        <li>[MANO ROLĖ] → tavo pareigos (pvz. Pardavimų vadovas).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Kasdienybės patobulinimas:</strong>
                         <p>Gausi asmeninę promptų kolekciją – naudok kasdien be papildomo galvojimo.</p>
@@ -1830,12 +1920,11 @@ Pateik lentelę:
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt7')"
                         aria-label="Kopijuoti promptą 7 į mainų atmintinę"
                         data-prompt-id="prompt7">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1857,24 +1946,31 @@ Pateik lentelę:
                 <p class="prompt-desc">Pasiruošk spaudimui ir neapibrėžtumui iš anksto</p>
             </div>
             <div class="prompt-body">
-                <div class="code-block" 
-                     id="block8" 
+                <div class="code-block"
+                     id="block8"
                      role="button"
                      tabindex="0"
                      aria-label="Pasirinkti ir kopijuoti promptą 8"
                      onclick="selectText(this)"
                      onkeydown="handleCodeBlockKeydown(event, this)">
-                    <pre class="code-text" id="prompt8">Įsivaizduok kritinę situaciją įmonėje [ĮMONĖ],
-kuriai tiesiogiai įtaką daro rolė [MANO ROLĖ].
+                    <pre class="code-text" id="prompt8">META: Tu esi strateginio planavimo konsultantas. Tikslas: simuliacija kritinių situacijų ir veiksmų plano – pasiruošti spaudimui ir neapibrėžtumui.
 
-Pateik:
-- 2 realistiškus scenarijus;
-- veiksmų planą pirmoms 14 dienų;
-- kaip DI gali padėti;
-- pagrindines rizikas ir sėkmės kriterijus.</pre>
+INPUT: Įmonė [ĮMONĖ], rolė [MANO ROLĖ]. Įsivaizduok kritinę situaciją, kuriai tiesiogiai įtaką daro ši rolė. Pateik: 2 realistiškus scenarijus; veiksmų planą pirmoms 14 dienų; kaip DI gali padėti; pagrindines rizikas ir sėkmės kriterijus.
+
+OUTPUT: Rezultatas: scenarijai ir 14 dienų planas – geriau praktikuoti su DI iš anksto, nei realioje situacijoje.</pre>
                 </div>
+                <section class="before-use" id="before-use-8" aria-labelledby="before-use-title-8">
+                    <h3 class="before-use-title" id="before-use-title-8">Prieš naudojant</h3>
+                    <p><strong>Naudok kai:</strong> nori pasiruošti krizėms; planuoti atsaką į spaudimą; treniruoti sprendimus su DI.</p>
+                    <p><strong>Pakeisk prieš naudodamas:</strong></p>
+                    <ul>
+                        <li>[ĮMONĖ] → tavo arba kliento įmonė (pvz. Telia Lietuva);</li>
+                        <li>[MANO ROLĖ] → tavo pareigos (pvz. Pardavimų vadovas).</li>
+                    </ul>
+                    <p><strong>Ką daryti:</strong> Nukopijuok žemiau esantį tekstą ir įklijuok į ChatGPT arba Claude.</p>
+                </section>
                 <div class="info-box" role="note" aria-label="Informacija apie promptą">
-                    <div class="info-icon" aria-hidden="true">💡</div>
+                    <div class="info-icon" aria-hidden="true"><i data-lucide="lightbulb"></i></div>
                     <div class="info-content">
                         <strong>Pasirengimas:</strong>
                         <p>Simuliacijos padeda išmokti valdyti krizes, kol jų dar nėra. Geriau praktikuoti DI, nei realioje situacijoje.</p>
@@ -1882,12 +1978,11 @@ Pateik:
                 </div>
             </div>
             <div class="prompt-footer">
-                <p class="prompt-cta">Nukopijuok ir įklijuok į ChatGPT arba Claude – tai šio žingsnio tikslas.</p>
                 <button class="btn" 
                         onclick="copyPrompt(this, 'prompt8')"
                         aria-label="Kopijuoti promptą 8 į mainų atmintinę"
                         data-prompt-id="prompt8">
-                    <span aria-hidden="true">📋</span>
+                    <i data-lucide="clipboard-copy" aria-hidden="true"></i>
                     <span>Kopijuoti promptą</span>
                 </button>
                 <label class="prompt-done-wrap">
@@ -1923,14 +2018,14 @@ Pateik:
         </section>
 
         <footer class="footer">
-            <h3>Sėkmės analizėms <span aria-hidden="true">🚀</span></h3>
-            <p>Nepamiršk pakeisti <strong>[ĮMONĖ]</strong> ir <strong>[MANO ROLĖ]</strong> savo duomenimis</p>
+            <h3>Sėkmės analizėms <i data-lucide="rocket" aria-hidden="true"></i></h3>
+            <p>Jei prompte yra [ĮMONĖ] arba [MANO ROLĖ] – pakeisk savo duomenimis. DI rolė (pvz. „kritiškas analitikas“) – jos keisti nereikia.</p>
             <p class="footer-product-link">Tai <strong>Spin-off Nr. 1</strong> iš „Promptų anatomijos“. Pilnas interaktyvus mokymas ir kiti kursai: <a href="https://ditreneris.github.io/anatomija/" target="_blank" rel="noopener noreferrer">Promptų anatomija →</a></p>
             <div class="tags" role="list">
-                <span class="tag" role="listitem"><span aria-hidden="true">🤖</span> DI optimizuota</span>
-                <span class="tag" role="listitem"><span aria-hidden="true">📚</span> 8 promptai</span>
-                <span class="tag" role="listitem"><span aria-hidden="true">⚡</span> Greitas startas</span>
-                <span class="tag" role="listitem"><span aria-hidden="true">🎯</span> Rezultatai</span>
+                <span class="tag" role="listitem"><i data-lucide="bot" aria-hidden="true"></i> DI optimizuota</span>
+                <span class="tag" role="listitem"><i data-lucide="book-marked" aria-hidden="true"></i> 8 promptai</span>
+                <span class="tag" role="listitem"><i data-lucide="zap" aria-hidden="true"></i> Greitas startas</span>
+                <span class="tag" role="listitem"><i data-lucide="target" aria-hidden="true"></i> Rezultatai</span>
             </div>
             <div class="copyright">
                 <p>&copy; 2026 Tomas Staniulis. Mokymų medžiaga. Visos teisės saugomos. <a href="privatumas.html">Privatumas</a></p>
@@ -1940,6 +2035,7 @@ Pateik:
         </main>
     </div>
 
+    <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
     <textarea class="hidden" id="hiddenTextarea" aria-label="Kopijuojamo teksto laukas" aria-hidden="true"></textarea>
     
     <div class="toast" 
@@ -1948,7 +2044,7 @@ Pateik:
          aria-live="polite" 
          aria-atomic="true"
          aria-label="Kopijavimo pranešimas">
-        <div class="toast-icon" aria-hidden="true">✓</div>
+        <div class="toast-icon" aria-hidden="true"><i data-lucide="check"></i></div>
         <span>Nukopijuota.</span>
     </div>
 
@@ -2119,13 +2215,15 @@ Pateik:
                 if (!button) return;
 
                 const original = button.innerHTML;
-                button.innerHTML = '<span aria-hidden="true">✓</span><span>Nukopijuota!</span>';
+                button.innerHTML = '<i data-lucide="check" aria-hidden="true"></i><span>Nukopijuota!</span>';
+                if (typeof lucide !== 'undefined') lucide.createIcons({ root: button });
                 button.classList.add('success');
                 button.setAttribute('aria-label', 'Promptas sėkmingai nukopijuotas');
                 showToast();
                 
                 setTimeout(() => {
                     button.innerHTML = original;
+                    if (typeof lucide !== 'undefined') lucide.createIcons({ root: button });
                     button.classList.remove('success');
                     const promptId = button.getAttribute('data-prompt-id');
                     if (promptId) {
@@ -2142,11 +2240,13 @@ Pateik:
 
                 const original = button.innerHTML;
                 const errorMessage = message || 'Pažymėk tekstą';
-                button.innerHTML = `<span aria-hidden="true">⚠</span><span>${errorMessage}</span>`;
-                button.setAttribute('aria-label', `Klaida: ${errorMessage}`);
+                button.innerHTML = '<i data-lucide="alert-circle" aria-hidden="true"></i><span>' + errorMessage + '</span>';
+                if (typeof lucide !== 'undefined') lucide.createIcons({ root: button });
+                button.setAttribute('aria-label', 'Klaida: ' + errorMessage);
                 
                 setTimeout(() => {
                     button.innerHTML = original;
+                    if (typeof lucide !== 'undefined') lucide.createIcons({ root: button });
                     const promptId = button.getAttribute('data-prompt-id');
                     if (promptId) {
                         button.setAttribute('aria-label', `Kopijuoti promptą ${promptId.replace('prompt', '')} į mainų atmintinę`);
@@ -2239,6 +2339,7 @@ Pateik:
 
             // ===== INICIALIZACIJA =====
             document.addEventListener('DOMContentLoaded', function() {
+                if (typeof lucide !== 'undefined') lucide.createIcons();
                 // Pridėti klaviatūros navigaciją visiems code-block elementams
                 const codeBlocks = document.querySelectorAll('.code-block');
                 codeBlocks.forEach(block => {

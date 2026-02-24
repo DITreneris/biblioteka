@@ -31,7 +31,7 @@
 2. Pasirinkite promptą ir spauskite ant jo – tekstas automatiškai pažymėsis
 3. Spauskite mygtuką **"Kopijuoti promptą"** arba naudokite `Ctrl+C` / `Cmd+C`
 4. Įklijuokite į ChatGPT, Claude ar kitą DI įrankį
-5. Pakeiskite `[ĮMONĖ]` ir `[MANO ROLĖ]` savo duomenimis
+5. Jei prompte yra `[ĮMONĖ]` – pakeiskite į savo arba kliento įmonę; jei yra `[MANO ROLĖ]` – pakeiskite į savo pareigas. DI rolė (pvz. „kritiškas analitikas“) jau nurodyta prompte – jos keisti nereikia
 
 ## Technologijos
 
