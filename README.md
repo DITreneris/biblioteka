@@ -46,38 +46,27 @@ Interaktyvi HTML platforma su 10 paruoštų promptų rinkodaros sistemai. Papras
 
 ## Struktūra
 
-**Dokumentacijos indeksas (agentams ir komandai):** [docs/INDEX.md](docs/INDEX.md).
-
 ```
 .
-├── index.html              # LT šaltinis: hero, upgrade sluoksnis, 10 promptų, CMO kontekstas
-├── privatumas.html         # Legacy LT privatumas (root); kanonas – lt/privatumas.html
+├── index.html              # Pagrindinis puslapis (hero, upgrade sluoksnis, 10 promptų, instrukcijos)
+├── privatumas.html         # Privatumo politika
 ├── README.md               # Ši dokumentacija
-├── AGENTS.md               # Agentų rolės ir workflow
 ├── CHANGELOG.md            # Versijų istorija (Keep a Changelog)
 ├── STYLEGUIDE.md           # Spalvos, komponentai, tipografija
 ├── DEPLOYMENT.md           # Deploy į GitHub Pages (cmo)
 ├── package.json            # npm test, lint:html, lint:js
-├── .cursorrules            # Cursor: saugumas, kokybė, dokumentacija
 ├── .pa11yrc.json           # A11y (pa11y) – Chrome launch args CI
-├── scripts/
-│   └── build-locale-pages.js   # Generuoja lt/, en/, js/en-prompt-bodies-inline.js
 ├── docs/
-│   ├── INDEX.md            # Navigacija pagal rolę ir užduotį
-│   ├── DOCUMENTATION.md    # Dokumentų inventorius ir atsakomybės
-│   ├── LEGACY_GOLDEN_STANDARD.md   # Golden standard (struktūra, ID, JS)
-│   ├── MULTILINGUAL_STRUCTURE.md   # LT/EN keliai ir build
-│   ├── BULLET_PROOF_PROMPTS.md     # Promptų šablonas
+│   ├── DOCUMENTATION.md    # Dokumentų inventorius
+│   ├── LEGACY_GOLDEN_STANDARD.md   # Struktūra, ID, JS API (keičiant turinį)
 │   ├── PEDAGOGINES_SPECIFIKACIJA.md
 │   ├── QA_STANDARTAS.md    # QA (spinoff01)
 │   └── TESTAVIMAS.md       # Gyvo testavimo žurnalas
 ├── .github/workflows/
-│   ├── ci.yml              # npm test + pa11y (/lt/, /en/, privacy)
+│   ├── ci.yml              # Lint, testai, pa11y
 │   └── deploy.yml          # GitHub Pages
 └── tests/
-    ├── structure.test.js
-    ├── design-system-smoke.test.js
-    └── a11y-smoke.test.js
+    └── structure.test.js   # Struktūros testai (promptai, ID, mygtukai)
 ```
 
 ## Privatumas

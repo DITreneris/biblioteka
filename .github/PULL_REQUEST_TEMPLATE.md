@@ -28,11 +28,11 @@
 
 ## Susiję dokumentai
 
-<!-- Inventorius ir kada ką atnaujinti: docs/DOCUMENTATION.md; greita navigacija: docs/INDEX.md -->
+<!-- Jei reikia atnaujinti README, INTEGRACIJA, AGENTS.md ir pan. – žr. docs/DOCUMENTATION.md -->
 
-- [ ] Dokumentacija atnaujinta pagal pakeitimus (žr. [docs/DOCUMENTATION.md](docs/DOCUMENTATION.md))
-- [ ] Jei release – CHANGELOG.md ir package.json versija (SemVer)
+- [ ] Dokumentacija (README, INTEGRACIJA ir kt.) atnaujinta pagal pakeitimus
+- [ ] Jei release – CHANGELOG.md atnaujintas ir versija nurodyta (SemVer)
 
 ---
 
-Žr. [docs/INDEX.md](docs/INDEX.md) (indeksas), [AGENTS.md](AGENTS.md) (agentai), [.cursorrules](.cursorrules) (taisyklės), [docs/LEGACY_GOLDEN_STANDARD.md](docs/LEGACY_GOLDEN_STANDARD.md) (struktūros kontraktas).
+Žr. [AGENTS.md](AGENTS.md) agentų aprašymui ir [.cursorrules](.cursorrules) projekto taisyklėms.
